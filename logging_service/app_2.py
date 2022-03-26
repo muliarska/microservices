@@ -5,7 +5,7 @@ msgs_map = {}
 
 
 @app.route("/logging", methods=['GET', 'POST'])
-def post_msg() -> str:
+def logging() -> str:
     if request.method == 'POST':
         # receive message from facade service
         msg = request.json.get("msg", None)

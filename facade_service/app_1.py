@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/facade", methods=['GET', 'POST'])
-def post_msg() -> str:
+def facade() -> str:
     if request.method == 'POST':
         # receive message from request json
         msg = request.json.get("msg", None)
