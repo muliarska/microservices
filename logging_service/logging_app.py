@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request
 
 app = Flask(__name__)
 msgs_map = {}
@@ -8,25 +8,23 @@ msgs_map = {}
 def logging() -> str:
     if request.method == 'POST':
         # receive message from facade service
-        msg = request.json.get("msg", None)
-        uuid = request.json.get("UUID", None)
-        print("Received in logging")
+        text = request.json.get("text", None)
+        uuid = request.json.get("uuid", None)
 
         # store this message to local map
-        # TODO: change this map to Hash map with multi threads support
+        # TODO: change this map to Hash map with multi threads support.
         global msgs_map
-        msgs_map[uuid] = msg
+        msgs_map[uuid] = text
 
-        # return received message
-        return msg
+        return ""
 
     elif request.method == 'GET':
         # return all messages
-        msgs = "All messages:"
+        msgs = ""
         for value in msgs_map.values():
-            msgs += "\n"
             msgs += value
-        return msgs
+            msgs += ", "
+        return "[" + msgs[:-2] + "]"
 
 
 if __name__ == '__main__':
