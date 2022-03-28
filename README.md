@@ -11,7 +11,7 @@ Go to the next directories and perform flask app running command:
 - logging_service: `flask run -h localhost -p 8081`
 - messages_service: `flask run -h localhost -p 8082`
 
-If you want to change ports, you should change them in the code as well (`logging_url` and `messages_url` in facade/app.py)
+If you want to change ports, you should change them in the code as well (`logging_url` and `messages_url` in [facade/app.py](https://github.com/muliarska/microservices/blob/micro_basics/facade_service/app.py))
 
 2. Open Postman or another platform for performing requests.
 
