@@ -1,7 +1,8 @@
 from flask import Flask, request
 
+
 app = Flask(__name__)
-msgs_map = {}
+msgs_map = dict()
 
 
 @app.route("/logging", methods=['GET', 'POST'])
@@ -10,9 +11,9 @@ def logging() -> str:
         # receive message from facade service
         text = request.json.get("text", None)
         uuid = request.json.get("uuid", None)
+        print(f"Logging service received message: {text}, with uuid: {uuid}")
 
         # store this message to local map
-        # TODO: change this map to Hash map with multi threads support.
         global msgs_map
         msgs_map[uuid] = text
 
@@ -28,4 +29,4 @@ def logging() -> str:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=81)
+    app.run(host='0.0.0.0', port=8081)

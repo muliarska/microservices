@@ -1,10 +1,23 @@
 from flask import Flask, request
 import requests
-from message import Message
+import uuid
+
 
 app = Flask(__name__)
-logging_url = "http://localhost:81/logging"
-messages_url = "http://localhost:82/messages"
+logging_url = "http://localhost:8081/logging"
+messages_url = "http://localhost:8082/messages"
+
+
+class Message:
+    def __init__(self, text):
+        self._text = text
+        self._uuid = str(uuid.uuid1())
+
+    def text(self):
+        return self._text
+
+    def uuid(self):
+        return self._uuid
 
 
 @app.route("/facade", methods=['GET', 'POST'])
@@ -12,7 +25,7 @@ def facade() -> str:
     if request.method == 'POST':
         # receive message from request json
         msg = Message(request.json.get("msg", None))
-        # TODO: Add logging.
+        print(f"Facade service received message: {msg.text()}")
 
         # send this message to logging service with POST request
         logging_post_dict = {"text": msg.text(), "uuid": msg.uuid()}
@@ -31,4 +44,4 @@ def facade() -> str:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8080)
