@@ -30,7 +30,11 @@ If you want to change ports, you should change them in the code as well (`loggin
 
 ## Logs example
 
-In the logging service console you can see simple logs on what is going on.
+In the facade service console you can see simple logs on what is going on:
 
-![logging](https://github.com/muliarska/microservices/blob/micro_basics/examples/logging.png)
+![facade](https://github.com/muliarska/microservices/blob/micro_basics/examples/facade.png)
+
+Similar logs in logging service console:
+
+![logging](https://github.com/muliarska/microservices/blob/micro_basics/examples/logging_logs.png)
 
