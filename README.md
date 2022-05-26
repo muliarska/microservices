@@ -1,40 +1,49 @@
-# Basic microservices architecture
+# Microservices architecture with Hazelcast
 
 Author: [Yana Muliarska](https://github.com/muliarska)
 
 ## Usage example
 
-1. Run microservices
+### 1. Run microservices
 
-Go to the next directories and perform flask app running command:
-- facade_service: `flask run -h localhost -p 8080`
-- logging_service: `flask run -h localhost -p 8081`
-- messages_service: `flask run -h localhost -p 8082`
+Go to the next directories and run microservices by commands:
+- facade_service: `flask run -h localhost -p 8080` to run facade microservice
+- messages_service: `flask run -h localhost -p 8081` to run messages microservice
+- logging_service: `flask run -h localhost -p 8082` to run logging 1 microservice
+- logging_service: `flask run -h localhost -p 8083` to run logging 2 microservice
+- logging_service: `flask run -h localhost -p 8084` to run logging 3 microservice
 
 If you want to change ports, you should change them in the code as well (`logging_url` and `messages_url` in [facade/app.py](https://github.com/muliarska/microservices/blob/micro_basics/facade_service/app.py))
 
-2. Open Postman or another platform for performing requests.
+### 2. Hazelcast nodes starting
 
-3. `POST http://localhost:8080/facade` with json: `{"msg": "Слава"}`
+Console log:
 
-![post_1](https://github.com/muliarska/microservices/blob/micro_basics/examples/post_1.png)
+![nodes_start](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/nodes_start.png)
 
-4. `POST http://localhost:8080/facade` with json: `{"msg": "Україні!"}`
+### 3. Open Postman or another platform for performing requests.
 
-![post_2](https://github.com/muliarska/microservices/blob/micro_basics/examples/post_2.png)
+### 4. Run 10 POST requests to the facade microservice `POST http://localhost:8080/facade` with json: `{"msg": "msg{number}"}` for number in range [1, 10]
 
-5. `GET http://localhost:8080/facade`
+![post_request](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/post_request.png)
 
-![get](https://github.com/muliarska/microservices/blob/micro_basics/examples/get.png)
+Requests work and return "".
 
+Here we can see logs in the facade microservice console:
 
-## Logs example
+![post_facade_log](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/post_facade_log.png)
 
-In the facade service console you can see simple logs on what is going on:
+Logs in the logging microservice console:
 
-![facade](https://github.com/muliarska/microservices/blob/micro_basics/examples/facade.png)
+![post_logging_log](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/post_logging_log.png)
 
-Similar logs in logging service console:
+### 5. Run GET request to the facade microservice `GET http://localhost:8080/facade`
 
-![logging](https://github.com/muliarska/microservices/blob/micro_basics/examples/logging_logs.png)
+![get_request](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/get_request.png)
+
+Request works and return correct messages.
+
+When removing some Hazelcast nodes, GET requests are still working:
+
+![get_log](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/get_log.png)
 
