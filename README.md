@@ -38,7 +38,7 @@ Here you can see the console output for different types of locks.
 ![optimistic](https://github.com/muliarska/microservices/blob/hazelcast_usage/logs/optimistic.png)
 
 ### 5. Bounded queue usage for read/write
-Code for this task you can fing in [task5](https://github.com/muliarska/microservices/tree/hazelcast_usage/task3) folder.
+Code for this task you can fing in [task5](https://github.com/muliarska/microservices/tree/hazelcast_usage/task5) folder.
 
 Here you can see the console output when writing from one node.
 
