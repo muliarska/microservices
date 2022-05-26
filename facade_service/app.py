@@ -1,11 +1,12 @@
 from flask import Flask, request
 import requests
 import uuid
+from random import choice
 
 
 app = Flask(__name__)
-logging_url = "http://localhost:8081/logging"
-messages_url = "http://localhost:8082/messages"
+logging_urls = ["http://localhost:8082/logging", "http://localhost:8083/logging", "http://localhost:8084/logging"]
+messages_url = "http://localhost:8081/messages"
 
 
 class Message:
@@ -29,12 +30,16 @@ def facade() -> str:
 
         # send this message to logging service with POST request
         logging_post_dict = {"text": msg.text(), "uuid": msg.uuid()}
+        # select random logging service to work with
+        logging_url = choice(logging_urls)
+        print(f"Facade service sent message to: {logging_url}")
         response = requests.post(logging_url, json=logging_post_dict)
 
         return response.text
 
     elif request.method == 'GET':
         # receive all messages from logging service with GET request
+        logging_url = choice(logging_urls)
         logging_response = requests.get(logging_url).text
         # receive response from messages service with GET request
         messages_response = requests.get(messages_url).text
