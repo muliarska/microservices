@@ -8,10 +8,11 @@ Author: [Yana Muliarska](https://github.com/muliarska)
 
 Go to the next directories and run microservices by commands:
 - facade_service: `flask run -h localhost -p 8080` to run facade microservice
-- messages_service: `flask run -h localhost -p 8081` to run messages microservice
-- logging_service: `flask run -h localhost -p 8082` to run logging 1 microservice
-- logging_service: `flask run -h localhost -p 8083` to run logging 2 microservice
-- logging_service: `flask run -h localhost -p 8084` to run logging 3 microservice
+- logging_service: `flask run -h localhost -p 8081` to run logging 1 microservice
+- logging_service: `flask run -h localhost -p 8082` to run logging 2 microservice
+- logging_service: `flask run -h localhost -p 8083` to run logging 3 microservice
+- messages_service: `flask run -h localhost -p 8084` to run messages 1 microservice
+- messages_service: `flask run -h localhost -p 8085` to run messages 2 microservice
 
 If you want to change ports, you should change them in the code as well (`logging_url` and `messages_url` in [facade/app.py](https://github.com/muliarska/microservices/blob/micro_basics/facade_service/app.py))
 
