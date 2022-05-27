@@ -1,4 +1,4 @@
-# Microservices architecture with Messaging queue
+# Microservices architecture with Consul
 
 Author: [Yana Muliarska](https://github.com/muliarska)
 
