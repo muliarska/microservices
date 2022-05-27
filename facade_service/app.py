@@ -2,11 +2,12 @@ from flask import Flask, request
 import requests
 import uuid
 from random import choice
+import hazelcast
 
 
 app = Flask(__name__)
-logging_urls = ["http://localhost:8082/logging", "http://localhost:8083/logging", "http://localhost:8084/logging"]
-messages_url = "http://localhost:8081/messages"
+logging_urls = ["http://localhost:8081/logging", "http://localhost:8082/logging", "http://localhost:8083/logging"]
+messages_urls = ["http://localhost:8084/messages", "http://localhost:8085/messages"]
 
 
 class Message:
@@ -23,11 +24,23 @@ class Message:
 
 @app.route("/facade", methods=['GET', 'POST'])
 def facade() -> str:
+    # starting Hazelcast Client and connecting it to the running clusters
+    client = hazelcast.HazelcastClient(cluster_name="dev",
+                                       cluster_members=[
+                                           # "127.0.0.1:5701",
+                                           "127.0.0.1:5702",
+                                           "127.0.0.1:5703"
+                                       ])
+    print("Connected to the clusters")
+
+    bounded_queue = client.get_queue("my-bounded-queue").blocking()
+
     if request.method == 'POST':
         # receive message from request json
         msg = Message(request.json.get("msg", None))
         print(f"Facade service received message: {msg.text()}")
 
+        # LOGGING SERVICE
         # send this message to logging service with POST request
         logging_post_dict = {"text": msg.text(), "uuid": msg.uuid()}
         # select random logging service to work with
@@ -35,13 +48,18 @@ def facade() -> str:
         print(f"Facade service sent message to: {logging_url}")
         response = requests.post(logging_url, json=logging_post_dict)
 
+        # MESSAGES SERVICE
+        bounded_queue.put(f"{request.get_json()}")
+
         return response.text
 
     elif request.method == 'GET':
         # receive all messages from logging service with GET request
         logging_url = choice(logging_urls)
         logging_response = requests.get(logging_url).text
+
         # receive response from messages service with GET request
+        messages_url = choice(messages_urls)
         messages_response = requests.get(messages_url).text
 
         # merge and return responses
