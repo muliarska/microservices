@@ -10,3 +10,5 @@ Lab 2: [branch **hazelcast_usage**](https://github.com/muliarska/microservices/t
 Lab 3: [branch **micro_hazelcast**](https://github.com/muliarska/microservices/tree/micro_hazelcast)
 
 Lab 4: [branch **micro_mq**](https://github.com/muliarska/microservices/tree/micro_mq)
+
+Lab 5: [branch **micro_consul**](https://github.com/muliarska/microservices/tree/micro_consul)
