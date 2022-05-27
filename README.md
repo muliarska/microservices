@@ -19,31 +19,47 @@ If you want to change ports, you should change them in the code as well (`loggin
 
 Console log:
 
-![nodes_start](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/nodes_start.png)
+![nodes_start](https://github.com/muliarska/microservices/blob/micro_mq/logs/nodes_start.png)
 
 ### 3. Open Postman or another platform for performing requests.
 
 ### 4. Run 10 POST requests to the facade microservice `POST http://localhost:8080/facade` with json: `{"msg": "msg{number}"}` for number in range [1, 10]
 
-![post_request](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/post_request.png)
+![post_request](https://github.com/muliarska/microservices/blob/micro_mq/logs/post_request.png)
 
 Requests work and return "".
 
-Here we can see logs in the facade microservice console:
-
-![post_facade_log](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/post_facade_log.png)
-
-Logs in the logging microservice console:
-
-![post_logging_log](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/post_logging_log.png)
-
 ### 5. Run GET request to the facade microservice `GET http://localhost:8080/facade`
 
-![get_request](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/get_request.png)
+![get_request](https://github.com/muliarska/microservices/blob/micro_mq/logs/get_request.png)
 
 Request works and return correct messages.
 
-When removing some Hazelcast nodes, GET requests are still working:
+### 6. Here you can see console output for each microservice:
 
-![get_log](https://github.com/muliarska/microservices/blob/micro_hazelcast/logs/get_log.png)
+- Facade microservice
+
+![facade_logs](https://github.com/muliarska/microservices/blob/micro_mq/logs/facade_logs.png)
+
+- Logging 1 microservice
+
+![logging_1_logs](https://github.com/muliarska/microservices/blob/micro_mq/logs/logging_1_logs.png)
+
+- Logging 2 microservice
+
+![logging_2_logs](https://github.com/muliarska/microservices/blob/micro_mq/logs/logging_2_logs.png)
+
+- Logging 3 microservice
+
+![logging_3_logs](https://github.com/muliarska/microservices/blob/micro_mq/logs/logging_3_logs.png)
+
+- Messages 1 microservice
+
+![messages_1_logs](https://github.com/muliarska/microservices/blob/micro_mq/logs/messages_1_logs.png)
+
+- Messages 2 microservice
+
+![messages_2_logs](https://github.com/muliarska/microservices/blob/micro_mq/logs/messages_2_logs.png)
+
+
 
