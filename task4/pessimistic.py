@@ -1,9 +1,7 @@
 import hazelcast
-import logging
 import time
 
 
-logging.basicConfig(level=logging.INFO)
 # starting Hazelcast Client and connecting it to the running clusters
 client = hazelcast.HazelcastClient(cluster_name="dev",
                                    cluster_members=[
