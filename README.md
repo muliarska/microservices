@@ -1,4 +1,4 @@
-# Microservices architecture with Hazelcast
+# Microservices architecture with Messaging queue
 
 Author: [Yana Muliarska](https://github.com/muliarska)
 
