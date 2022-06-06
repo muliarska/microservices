@@ -5,7 +5,7 @@ Author: [Yana Muliarska](https://github.com/muliarska)
 ## Usage example
 
 ### 0. Run Consul
-TO start Consul run `bash consul/start.sh`
+To start Consul run `bash consul/start.sh`
 
 To stop the Consul, run `bash consul/stop.sh` in the end.
 
