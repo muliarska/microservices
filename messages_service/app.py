@@ -1,24 +1,36 @@
 from flask import Flask, request
 import hazelcast
+import consul
+import argparse
+import uuid
 
 
 app = Flask(__name__)
 messages_list = []
 
+# argument parsing for finding ports
+parser = argparse.ArgumentParser(description='Parsing port.')
+parser.add_argument('--port', type=int)
+args = parser.parse_args()
+port = args.port
+
+# consul set up
+session = consul.Consul(host='localhost', port=8500)
+session.agent.service.register('messages-service',
+                               port=port,
+                               service_id=f"messages-{uuid.uuid4()}")
+
+# starting Hazelcast Client and connecting it to the running clusters
+client = hazelcast.HazelcastClient(cluster_name="dev",
+                                   cluster_members=session.kv.get('hazelcast_ports')[1]['Value'].decode(
+                                       "utf-8").split())
+print("Connected to the clusters")
+bounded_queue = client.get_queue(session.kv.get('my-bounded-queue')[1]['Value'].decode("utf-8")).blocking()
+
 
 @app.route("/messages", methods=['GET'])
 def messages() -> str:
     global messages_list
-    # starting Hazelcast Client and connecting it to the running clusters
-    client = hazelcast.HazelcastClient(cluster_name="dev",
-                                       cluster_members=[
-                                           # "127.0.0.1:5701",
-                                           "127.0.0.1:5702",
-                                           "127.0.0.1:5703"
-                                       ])
-    print("Connected to the clusters")
-
-    bounded_queue = client.get_queue("my-bounded-queue").blocking()
 
     if request.method == 'GET':
         is_empty = bounded_queue.is_empty()

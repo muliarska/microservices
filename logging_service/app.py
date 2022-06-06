@@ -1,25 +1,35 @@
 from flask import Flask, request
 import hazelcast
+import consul
+from uuid import uuid4
+import argparse
 
 
 app = Flask(__name__)
-# msgs_map = dict()
+
+# argument parsing for finding ports
+parser = argparse.ArgumentParser(description='Parsing port.')
+parser.add_argument('--port', type=int)
+args = parser.parse_args()
+port = args.port
+
+# consul set up
+session = consul.Consul(host='localhost', port=8500)
+# uuid_numb = uuid4()
+session.agent.service.register('logging-service',
+                               port=port,
+                               service_id=f"logging-{uuid4()}")
+
+# starting Hazelcast Client and connecting it to the running clusters
+client = hazelcast.HazelcastClient(cluster_name="dev",
+                                   cluster_members=session.kv.get('hazelcast_ports')[1]['Value'].decode(
+                                       "utf-8").split())
+print("Connected to the clusters")
+distributed_map = client.get_map(session.kv.get('my-distributed-map')[1]['Value'].decode("utf-8")).blocking()
 
 
 @app.route("/logging", methods=['GET', 'POST'])
 def logging() -> str:
-
-    # starting Hazelcast Client and connecting it to the running clusters
-    client = hazelcast.HazelcastClient(cluster_name="dev",
-                                       cluster_members=[
-                                           "127.0.0.1:5701",
-                                           "127.0.0.1:5702",
-                                           "127.0.0.1:5703"
-                                       ])
-    print("Connected to the clusters")
-
-    distributed_map = client.get_map("my-distributed-map").blocking()
-
     if request.method == 'POST':
         # receive message from facade service
         text = request.json.get("text", None)
