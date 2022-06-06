@@ -4,7 +4,16 @@ Author: [Yana Muliarska](https://github.com/muliarska)
 
 ## Usage example
 
-### 1. Run microservices
+### 0. Run Consul
+`bash consul/start.sh`
+
+To stop the Consul, run `bash consul/stop.sh` in the end.
+
+### 1. Run hazelcast
+
+Install hazelcast, go to the `hazelcast-4.2.5` directory and run `bin/start.sh`
+
+### 2. Run microservices
 
 Go to the next directories and run microservices by commands:
 - facade_service: `flask run -h localhost -p 8080` to run facade microservice
@@ -15,12 +24,6 @@ Go to the next directories and run microservices by commands:
 - messages_service: `flask run -h localhost -p 8085` to run messages 2 microservice
 
 If you want to change ports, you should change them in the code as well (`logging_url` and `messages_url` in [facade/app.py](https://github.com/muliarska/microservices/blob/micro_basics/facade_service/app.py))
-
-### 2. Hazelcast nodes starting
-
-Console log:
-
-![nodes_start](https://github.com/muliarska/microservices/blob/micro_mq/logs/nodes_start.png)
 
 ### 3. Open Postman or another platform for performing requests.
 
